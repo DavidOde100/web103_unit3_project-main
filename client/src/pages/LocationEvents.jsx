@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import Event from '../components/Event'
 import '../css/LocationEvents.css'
+import LocationsAPI from '../services/LocationsAPI.jsx'
+import EventsAPI from '../services/EventsAPI.jsx'
 
-const LocationEvents = ({index}) => {
-    const [location, setLocation] = useState([])
+const LocationEvents = ({ index }) => {
+    const [location, setLocation] = useState({})
     const [events, setEvents] = useState([])
+
+    useEffect(() => {
+        ;(async () => {
+            try {
+                const loc = await LocationsAPI.getLocationById(index)
+                setLocation(loc || {})
+
+                const evts = await EventsAPI.getEventsByLocation(index)
+                setEvents(evts || [])
+            } catch (error) {
+                console.error(error)
+            }
+        })()
+    }, [index])
 
     return (
         <div className='location-events'>
             <header>
                 <div className='location-image'>
-                    <img src={location.image} />
+                    {location.image && <img src={location.image} alt={location.name} />}
                 </div>
 
                 <div className='location-info'>
@@ -20,8 +36,8 @@ const LocationEvents = ({index}) => {
             </header>
 
             <main>
-                {
-                    events && events.length > 0 ? events.map((event, index) =>
+                {events && events.length > 0 ? (
+                    events.map((event) => (
                         <Event
                             key={event.id}
                             id={event.id}
@@ -30,8 +46,10 @@ const LocationEvents = ({index}) => {
                             time={event.time}
                             image={event.image}
                         />
-                    ) : <h2><i className="fa-regular fa-calendar-xmark fa-shake"></i> {'No events scheduled at this location yet!'}</h2>
-                }
+                    ))
+                ) : (
+                    <h2><i className="fa-regular fa-calendar-xmark fa-shake"></i> No events scheduled at this location yet!</h2>
+                )}
             </main>
         </div>
     )
