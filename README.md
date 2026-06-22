@@ -1,8 +1,8 @@
-# WEB103 Project 3 - *Name of App Here*
+# WEB103 Project 3 - *Otaku Orbit*
 
 Submitted by: **David Odejimi**
 
-About this web app: **App description here**
+About this web app: **Otaku Orbit is a community hub for anime fans to discover local and virtual anime events by location — screenings, cosplay meetups, AMV contests, panels, and watch parties, with an interactive map you can click to see past and upcoming events for each venue.**
 
 Time spent: **X** hours
 
